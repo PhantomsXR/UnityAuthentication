@@ -173,7 +173,7 @@ namespace Unity.Services.Authentication
             string bodyText,
             IDictionary<string, string> headers)
         {
-            Logger.Log($"[WebResponse] {m_Verb.ToString().ToUpper()} {m_Url}\n" +
+            Logger.LogVerbose($"[WebResponse] {m_Verb.ToString().ToUpper()} {m_Url}\n" +
                        $"{string.Join("\n", headers?.Select(x => x.Key + ": " + x.Value) ?? new string[] { })}\n" +
                        $"{bodyText}\n{errorText}\n");
 
