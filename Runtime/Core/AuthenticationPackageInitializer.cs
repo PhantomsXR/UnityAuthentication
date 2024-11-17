@@ -162,7 +162,7 @@ namespace Unity.Services.Authentication
                     return "https://player-auth-stg.services.api.unity.com";
                 default:
 #if LOCATION_CHINA
-                    return "http://xgs.phantomsxr.com";
+                    return "https://xgs.phantomsxr.com";
 #else
                     return "https://player-auth.services.api.unity.com";
 #endif
@@ -176,10 +176,14 @@ namespace Unity.Services.Authentication
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:
+#if LOCATION_CHINA
+                    return "https://xgs-stg.phantomsxr.com";
+#else
                     return "https://social-stg.services.api.unity.com/v1";
+#endif
                 default:
 #if LOCATION_CHINA
-                    return "http://xgs.phantomsxr.com";
+                    return "https://xgs.phantomsxr.com";
 #else
                     return "https://social.services.api.unity.com/v1";
 #endif
