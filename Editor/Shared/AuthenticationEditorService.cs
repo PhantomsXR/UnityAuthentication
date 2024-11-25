@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Unity.Services.Authentication.Generated;
 using Unity.Services.Authentication.Shared;
+using Unity.Services.Core;
 using Unity.Services.Core.Configuration.Internal;
 using Unity.Services.Core.Environments.Internal;
 using Unity.Services.Core.Scheduler.Internal;
@@ -95,9 +96,13 @@ namespace Unity.Services.Authentication.Editor.Shared
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:
-                    return "https://player-auth-stg.services.api.unity.com";
+                    return CheckRegion.IsChina
+                        ? "https://xgs-stg.phantomsxr.com"
+                        : "https://player-auth-stg.services.api.unity.com";
                 default:
-                    return "https://player-auth.services.api.unity.com";
+                    return CheckRegion.IsChina
+                        ? "https://xgs-stg.phantomsxr.com"
+                        : "https://player-auth.services.api.unity.com";
             }
         }
 
@@ -106,9 +111,13 @@ namespace Unity.Services.Authentication.Editor.Shared
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:
-                    return "https://social-stg.services.api.unity.com/v1";
+                    return CheckRegion.IsChina
+                        ? "https://xgs-stg.phantomsxr.com/v1"
+                        : "https://social-stg.services.api.unity.com/v1";
                 default:
-                    return "https://social.services.api.unity.com/v1";
+                    return CheckRegion.IsChina
+                        ? "https://xgs.phantomsxr.com/v1"
+                        : "https://social.services.api.unity.com/v1";
             }
         }
 

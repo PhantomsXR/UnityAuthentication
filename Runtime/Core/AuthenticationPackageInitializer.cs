@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication.Generated;
 using Unity.Services.Authentication.Internal;
 using Unity.Services.Authentication.Shared;
+using Unity.Services.Core;
 using Unity.Services.Core.Configuration.Internal;
 using Unity.Services.Core.Environments.Internal;
 using Unity.Services.Core.Internal;
@@ -159,34 +160,30 @@ namespace Unity.Services.Authentication
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:
-                    return "https://player-auth-stg.services.api.unity.com";
+                    return CheckRegion.IsChina
+                        ? "https://xgs-stg.phantomsxr.com"
+                        : "https://player-auth-stg.services.api.unity.com";
                 default:
-#if LOCATION_CHINA
-                    return "https://xgs.phantomsxr.com";
-#else
-                    return "https://player-auth.services.api.unity.com";
-#endif
+
+                    return CheckRegion.IsChina
+                        ? "https://xgs.phantomsxr.com"
+                        : "https://player-auth.services.api.unity.com";
             }
         }
 
         string GetPlayerNamesHost(IProjectConfiguration projectConfiguration)
         {
             var cloudEnvironment = projectConfiguration?.GetString(k_CloudEnvironmentKey);
-
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:
-#if LOCATION_CHINA
-                    return "https://xgs-stg.phantomsxr.com";
-#else
-                    return "https://social-stg.services.api.unity.com/v1";
-#endif
+                    return CheckRegion.IsChina
+                        ? "https://xgs-stg.phantomsxr.com/v1"
+                        : "https://social-stg.services.api.unity.com/v1";
                 default:
-#if LOCATION_CHINA
-                    return "https://xgs.phantomsxr.com";
-#else
-                    return "https://social.services.api.unity.com/v1";
-#endif
+                    return CheckRegion.IsChina
+                        ? "https://xgs.phantomsxr.com/v1"
+                        : "https://social.services.api.unity.com/v1";
             }
         }
     }
