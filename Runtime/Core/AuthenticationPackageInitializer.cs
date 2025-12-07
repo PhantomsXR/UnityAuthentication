@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication.Generated;
 using Unity.Services.Authentication.Internal;
 using Unity.Services.Authentication.Shared;
-using Unity.Services.Core;
 using Unity.Services.Core.Configuration.Internal;
 using Unity.Services.Core.Environments.Internal;
 using Unity.Services.Core.Internal;
@@ -37,9 +36,11 @@ namespace Unity.Services.Authentication
                 .DependsOn<IProjectConfiguration>()
                 .DependsOn<IMetricsFactory>()
                 .ProvidesComponent<IPlayerId>()
+                .ProvidesComponent<IPlayerNameComponent>()
                 .ProvidesComponent<IAccessToken>()
                 .ProvidesComponent<IAccessTokenObserver>()
                 .ProvidesComponent<IEnvironmentId>();
+;
         }
 
         public Task Initialize(CoreRegistry registry)
@@ -86,6 +87,7 @@ namespace Unity.Services.Authentication
                 environment,
                 networkHandler,
                 accessToken);
+                        );
             var authenticationService = new AuthenticationServiceInternal(
                 settings,
                 networkClient,
@@ -107,6 +109,7 @@ namespace Unity.Services.Authentication
             registry.RegisterServiceComponent<IAccessTokenObserver>(authenticationService.AccessTokenComponent);
             registry.RegisterServiceComponent<IEnvironmentId>(authenticationService.EnvironmentIdComponent);
             registry.RegisterServiceComponent<IPlayerId>(authenticationService.PlayerIdComponent);
+            registry.RegisterServiceComponent<IPlayerNameComponent>(authenticationService.PlayerNameComponent);
 
             return authenticationService;
         }
@@ -129,13 +132,11 @@ namespace Unity.Services.Authentication
                         {
                             hasEditorModeArg = true;
                         }
-
                         if (cliArgs[i] == k_NameArg)
                         {
                             nameArgIndex = i;
                         }
                     }
-
                     if (hasEditorModeArg)
                     {
                         if (nameArgIndex > 0)
@@ -174,6 +175,7 @@ namespace Unity.Services.Authentication
         string GetPlayerNamesHost(IProjectConfiguration projectConfiguration)
         {
             var cloudEnvironment = projectConfiguration?.GetString(k_CloudEnvironmentKey);
+
             switch (cloudEnvironment)
             {
                 case k_StagingEnvironment:

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Unity.Services.Authentication
@@ -174,8 +173,8 @@ namespace Unity.Services.Authentication
             IDictionary<string, string> headers)
         {
             Logger.LogVerbose($"[WebResponse] {m_Verb.ToString().ToUpper()} {m_Url}\n" +
-                       $"{string.Join("\n", headers?.Select(x => x.Key + ": " + x.Value) ?? new string[] { })}\n" +
-                       $"{bodyText}\n{errorText}\n");
+                $"{string.Join("\n", headers?.Select(x => x.Key + ": " + x.Value) ?? new string[] { })}\n" +
+                $"{bodyText}\n{errorText}\n");
 
             if (isNetworkError && Retries < Configuration.Retries)
             {

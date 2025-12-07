@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Unity.Services.Authentication
 {
+    [Serializable]
     class CodeLinkInfoRequest
     {
         [JsonProperty("signInCode")]

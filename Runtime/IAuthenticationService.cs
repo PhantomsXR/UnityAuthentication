@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.Services.Authentication.Generated;
 using Unity.Services.Core;
 
 namespace Unity.Services.Authentication
@@ -44,23 +45,35 @@ namespace Unity.Services.Authentication
         event Action<RequestFailedException> SignInFailed;
 
         /// <summary>
+        /// Invoked when the name of the player changes. The new name is passed as the parameter.
+        /// </summary>
+        event Action<string> PlayerNameChanged;
+
+        /// <summary>
+        /// Invoked when the ID of the player changes. The new ID is passed as the parameter.
+        /// </summary>
+        event Action<string> PlayerIdChanged;
+
+        /// <summary>
+        /// Invoked when the PlayerInfo is set. The new PlayerInfo is passed as the parameter.
+        /// </summary>
+        event Action<PlayerInfo> PlayerInfoChanged;
+
+        /// <summary>
         /// Checks whether the player is signed in or not.
         /// A player can remain signed in but have an expired session.
         /// </summary>
-        /// <returns>Returns true if player is signed in, else false.</returns>
         bool IsSignedIn { get; }
 
         /// <summary>
         /// Checks whether the player is still authorized.
         /// A player is authorized as long as his access token remains valid.
         /// </summary>
-        /// <returns>Returns true if player is authorized, else false.</returns>
         bool IsAuthorized { get; }
 
         /// <summary>
         /// Checks whether the player session is expired.
         /// </summary>
-        /// <returns>Returns true if player's session expired.</returns>
         bool IsExpired { get; }
 
         /// <summary>
@@ -779,11 +792,10 @@ namespace Unity.Services.Authentication
         Task UnlinkOpenIdConnectAsync(string idProviderName);
 
         /// <summary>
-        /// Sign in using Unity Player Login's access token
+        /// Sign in using a Unity Player Accounts access token. The token needs to be retrieved using the PlayerAccountService API.
         /// </summary>
-        /// <param name="token">Unity Player Login's access token</param>
+        /// <param name="token">Unity Player Accounts access token</param>
         /// <param name="options">Options for the operation</param>
-        /// <returns>Task for the async operation</returns>
         /// <returns>Task for the async operation</returns>
         /// <exception cref="AuthenticationException">
         /// The task fails with the exception when the task cannot complete successfully due to Authentication specific errors.
@@ -803,9 +815,9 @@ namespace Unity.Services.Authentication
         Task SignInWithUnityAsync(string token, SignInOptions options = null);
 
         /// <summary>
-        /// Link the current player with Unity account using Unity's access token
+        /// Link the current player with a Unity Player Accounts account using the Unity Player Accounts access token. The token needs to be retrieved using the PlayerAccountService API.
         /// </summary>
-        /// <param name="token">Unity's access token</param>
+        /// <param name="token">Unity Player Accounts access token</param>
         /// <param name="options">Options for the link operations</param>
         /// <returns>Task for the operation</returns>
         /// <exception cref="AuthenticationException">
@@ -1064,7 +1076,7 @@ namespace Unity.Services.Authentication
         /// <param name="code">The sign-in code to be confirmed.</param>
         /// <param name="idProvider">The ID provider (optional).</param>
         /// <param name="externalToken">The external token (optional).</param>
-        /// <returns>A <see cref="Task"/> Representing the asynchronous operation. If the operation succeeds,
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation. If the operation succeeds,
         /// the task will complete successfully (indicating a successful response from the server).
         /// Otherwise, exceptions can be thrown as described below.</returns>
         /// <exception cref="AuthenticationException">Thrown when the code is null or empty.</exception>
@@ -1121,6 +1133,8 @@ namespace Unity.Services.Authentication
         /// <summary>
         /// Retrieves the Notifications that were created for the signed in player
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.
+        /// The task result contains the list of <see cref="Notification"/>.</returns>
         /// <exception cref="AuthenticationException">
         /// The task fails with the exception when the task cannot complete successfully due to Authentication specific errors.
         /// <list type="bullet">

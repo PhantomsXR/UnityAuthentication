@@ -4,6 +4,33 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.5.1] - 2025-05-26
+
+### Added
+- Added event `IAuthenticationService.PlayerInfoChanged` for when the instance of `PlayerInfo` is set.
+- Added event `PlayerInfo.Changed` for when the values within `PlayerInfo` are updated.
+- Added event `IAuthenticationService.PlayerNameChanged` for when the player name changes.
+- Added event `IAuthenticationService.PlayerIdChanged` for when the player id changes.
+- Added more details to server exception messages.
+
+## [3.4.1] - 2025-03-11
+
+### Fixed
+- Fixed an issue where the player name does not update correctly when calling `IAuthenticationService.SwitchProfile()`
+- Fixed an unexpected error log in the Player Accounts sample
+
+## [3.4.0] - 2024-11-08
+
+### Added
+- Added `PlayerAuthentication` component to manage authentication in the scene authoring.
+
+### Changed
+- Updated the minimum supported Editor version to 2021.3.
+
+## [3.3.4] - 2024-09-18
+### Fixed
+- Fixed an issue where `IAuthenticationService.Instance.GetSignInCodeInfoAsync()` and `IAuthenticationService.Instance.ConfirmCodeAsync()` was not working properly on iOS devices
+
 ## [3.3.3] - 2024-06-10
 ### Fixed
 - Fixed an issue where `IAuthenticationService.SwitchProfile()` was not working properly

@@ -14,6 +14,14 @@ namespace Unity.Services.Authentication
         const string k_OpenIdConnectPrefix = "oidc-";
         const string k_IdProviderNameRegex = @"^oidc-[a-z0-9-_\.]{1,15}$";
 
+        string m_Username;
+        DateTime? m_LastPasswordUpdate;
+
+        /// <summary>
+        /// Raised when a value changes
+        /// </summary>
+        public event Action<PlayerInfo> InfoChanged;
+
         /// <summary>
         /// Player Id
         /// </summary>
@@ -34,12 +42,34 @@ namespace Unity.Services.Authentication
         /// </summary>
         [CanBeNull]
         public string Username { get; internal set; }
+        {
+            get => m_Username;
+            internal set
+            {
+                if (m_Username != value)
+                {
+                    m_Username = value;
+                    InfoChanged?.Invoke(this);
+                }
+            }
+        }
 
         /// <summary>
         /// Last time the password was updated for the username/password account or null if none is set
         /// </summary>
         [CanBeNull]
-        public DateTime? LastPasswordUpdate { get; internal set; }
+        public DateTime? LastPasswordUpdate
+        {
+            get => m_LastPasswordUpdate;
+            internal set
+            {
+                if (m_LastPasswordUpdate != value)
+                {
+                    m_LastPasswordUpdate = value;
+                    InfoChanged?.Invoke(this);
+                }
+            }
+        }
 
         /// <summary>
         /// Constructor
@@ -108,7 +138,7 @@ namespace Unity.Services.Authentication
         /// <summary>
         /// Returns the player's steam id if one has been linked.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The player's Steam id</returns>
         public string GetSteamId()
         {
             return GetIdentityId(IdProviderKeys.Steam);
@@ -212,6 +242,7 @@ namespace Unity.Services.Authentication
             if (externalId != null)
             {
                 Identities.Add(new Identity(externalId));
+                InfoChanged?.Invoke(this);
             }
         }
 
@@ -220,7 +251,11 @@ namespace Unity.Services.Authentication
         /// </summary>
         internal void RemoveIdentity(string typeId)
         {
-            Identities?.RemoveAll(x => x.TypeId == typeId);
+            var nbRemoved = Identities?.RemoveAll(x => x.TypeId == typeId);
+            if (nbRemoved.HasValue && nbRemoved.Value > 0)
+            {
+                InfoChanged?.Invoke(this);
+            }
         }
 
         bool ValidateOpenIdConnectIdProviderName(string idProviderName)

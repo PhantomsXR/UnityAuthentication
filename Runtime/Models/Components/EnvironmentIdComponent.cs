@@ -4,7 +4,16 @@ namespace Unity.Services.Authentication
 {
     class EnvironmentIdComponent : IEnvironmentId
     {
-        public string EnvironmentId { get; internal set; }
+        string m_EnvironmentId;
+
+        public string EnvironmentId
+        {
+            get => m_EnvironmentId;
+            internal set
+            {
+                m_EnvironmentId = value;
+            }
+        }
 
         internal EnvironmentIdComponent()
         {
