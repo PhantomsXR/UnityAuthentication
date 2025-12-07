@@ -101,7 +101,7 @@ namespace Unity.Services.Authentication.Editor.Shared
                         : "https://player-auth-stg.services.api.unity.com";
                 default:
                     return CheckRegion.IsChina
-                        ? "https://xgs-stg.phantomsxr.com"
+                        ? "https://xgs.phantomsxr.com"
                         : "https://player-auth.services.api.unity.com";
             }
         }
