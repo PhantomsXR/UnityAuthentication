@@ -41,7 +41,7 @@ namespace Unity.Services.Authentication
         /// Username associated with the username/password account or null if none is set
         /// </summary>
         [CanBeNull]
-        public string Username { get; internal set; }
+        public string Username
         {
             get => m_Username;
             internal set

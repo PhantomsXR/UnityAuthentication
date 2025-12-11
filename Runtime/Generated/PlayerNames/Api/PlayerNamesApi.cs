@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using Unity.Services.Authentication.Shared;
+using Unity.Services.Core;
 
 namespace Unity.Services.Authentication.Generated
 {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication.Generated;
 using Unity.Services.Authentication.Internal;
 using Unity.Services.Authentication.Shared;
+using Unity.Services.Core;
 using Unity.Services.Core.Configuration.Internal;
 using Unity.Services.Core.Environments.Internal;
 using Unity.Services.Core.Internal;
@@ -86,8 +87,7 @@ namespace Unity.Services.Authentication
                 projectId,
                 environment,
                 networkHandler,
-                accessToken);
-                        );
+                accessToken); 
             var authenticationService = new AuthenticationServiceInternal(
                 settings,
                 networkClient,

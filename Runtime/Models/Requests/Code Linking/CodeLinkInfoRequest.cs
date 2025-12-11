@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
-using UnityEngine;
+using System;
+using Newtonsoft.Json; 
 
 namespace Unity.Services.Authentication
-{
+{ 
     [Serializable]
     class CodeLinkInfoRequest
     {
